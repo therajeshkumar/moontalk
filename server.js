@@ -1,6 +1,7 @@
 const path = require('path');
 const http = require('http');
 const express = require('express');
+const fs = require('fs');
 const socketio = require('socket.io');
 const formatMessage = require('./utils/messages');
 const {
@@ -17,7 +18,25 @@ const io = socketio(server);
 
 // set static folder
 
+http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+
+    // req.url stores the path in the url 
+    var url = req.url;
+    if (url === "/") {
+        res.sendFile(__dirname+'/index.html');
+    } else {
+        res.send('Page not found')
+    }
+
+
+});
+
+
+
+
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 
 const moontalk = 'moontalk!'
