@@ -1,8 +1,10 @@
 var express = require('express');
 var path = require('path');
+const http = require('http');
+const https = require('https');
 const PORT = process.env.PORT || 3000;
 const INDEX = '/index.html';
-
+const socketio = require('socket.io');
 const server = express()
     .use(express.static(path.join(__dirname, 'public')))
     .get('/', (rqe, res) => { res.sendFile(__dirname + '/index.html') })
@@ -10,7 +12,7 @@ const server = express()
     .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 
-const socketio = require('socket.io');
+
 const formatMessage = require('./utils/messages');
 const {
     userJoin,
@@ -21,7 +23,7 @@ const {
     = require('./utils/users');
 
 
-//const server = http.createServer(app);
+
 const io = socketio(server);
 
 // set static folder
