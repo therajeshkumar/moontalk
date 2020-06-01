@@ -1,7 +1,15 @@
-const path = require('path');
-const http = require('http');
-const express = require('express');
-const fs = require('fs');
+var express = require('express');
+var path = require('path');
+const PORT = process.env.PORT || 3000;
+const INDEX = '/index.html';
+
+const server = express()
+    .use(express.static(path.join(__dirname, 'public')))
+    .get('/', (rqe, res) => { res.sendFile(__dirname + '/index.html') })
+    .get('/chat', (req, res) => { res.sendFile(__dirname + '/chat.html') })
+    .listen(PORT, () => console.log(`Listening on ${PORT}`));
+
+
 const socketio = require('socket.io');
 const formatMessage = require('./utils/messages');
 const {
@@ -12,17 +20,17 @@ const {
 }
     = require('./utils/users');
 
-const app = express();
-const server = http.createServer(app);
+
+//const server = http.createServer(app);
 const io = socketio(server);
 
 // set static folder
-app.get('/', (req, res) => { res.sendFile(__dirname + '/index.html') });
-app.get('/chat', (req, res) => { res.sendFile(__dirname + '/chat.html') });
+// app.get('/', (req, res) => { res.sendFile(__dirname + '/index.html') });
+// app.get('/chat', (req, res) => { res.sendFile(__dirname + '/chat.html') });
 
 
 
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 
 
@@ -72,5 +80,5 @@ io.on('connection', socket => {
 });
 
 
-const PORT = 3000 || process.env.PORT;
-server.listen(PORT, () => { console.log(`server running on port ${PORT}`) });
+
+
