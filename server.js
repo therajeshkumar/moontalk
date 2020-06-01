@@ -17,21 +17,7 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 // set static folder
-
-http.createServer((req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-
-    // req.url stores the path in the url 
-    var url = req.url;
-    if (url === "/") {
-        res.sendFile(__dirname+'/index.html');
-    } else {
-        res.send('Page not found')
-    }
-
-
-});
-
+app.get('/', (req, res) => { res.sendFile(__dirname + '/public/index.html') });
 
 
 
